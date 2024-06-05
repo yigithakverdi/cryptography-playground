@@ -1,4 +1,10 @@
 ## Base class for all type of games
+class Adversary():
+    pass
+
+class Oracle():
+    pass
+
 class Game:
     def __init__(self):
         pass
