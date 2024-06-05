@@ -1,4 +1,4 @@
-from pseudorandom import PRG, PRF
+from primitives.pseudorandom import PRG, PRF
 
 class GGM:
     def __init__(self):

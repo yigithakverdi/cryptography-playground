@@ -1,4 +1,4 @@
-from core import MERSENNE_PRIME
+from primitives.core import MERSENNE_PRIME
 
 class PRG:
     def __init__(self):
@@ -11,6 +11,7 @@ class PRG:
     ## other applications where a deterministic random number generator is needed.
     def MT19937(self, seed):
         return (seed * MERSENNE_PRIME) % (2 ** 256)
+
 class PRF:
     def __init__(self):
         pass
