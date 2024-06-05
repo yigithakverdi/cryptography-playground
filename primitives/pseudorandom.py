@@ -6,70 +6,52 @@ class LinearCongruentialGenerator(BasePseudorandomGenerator):
     def __init__(self, seed):        
         super().__init__(seed)
         self.seed = seed
+                
+    # def __init__(self, seed, multiplier, increment, modulus):
+    #     super().__init__(seed)
         
-        
-    def __init__(self, seed, multiplier, increment, modulus):
-        super().__init__(seed)
-        
-        ## Seed is also from parent class but here we initialize it anyway
-        ## by requiring it as an argument
-        self.seed = seed
+    #     ## Seed is also from parent class but here we initialize it anyway
+    #     ## by requiring it as an argument
+    #     self.seed = seed
 
-        ## Initializing, modulus 'm', multiplier 'a', increment 'c'
-        self.a = multiplier
-        self.c = increment
-        self.m = modulus
+    #     ## Initializing, modulus 'm', multiplier 'a', increment 'c'
+    #     self.a = multiplier
+    #     self.c = increment
+    #     self.m = modulus
 
-        ## Check if the constraints are met
-        self.constraints()
+    #     ## Check if the constraints are met
+    #     self.constraints()
         
-        ## From parent class
-        self.state = 0
+    #     ## From parent class
+    #     self.state = 0
 
     def constraints(self):
         return 0 <= self.m and 0 <= self.a < self.m and 0 <= self.c < self.m and 0 <= self.seed < self.m
     
-    def lehmer(self, c=0, a=7**5, d=1, m=2**31-1):                
-        if(not 1 < self.seed < self.m):
-            raise ValueError("Seed must be in range 1 < seed < m")
-        
-        product = self.a * self.seed
-
-        low = product & ((1 << MERSENNE_EXPONENTS[0]) - 1)
-        high = product >> MERSENNE_EXPONENTS[0]
-
-        reduced = low + high * d
-
-
-        if(reduced >= self.m):
-            reduced -= self.m
-        
-        if(high == 0):
-            return reduced
-    
-        return self.lehmer()
-        
-
-    def lehmer_rng(self, x, a=48271, m=(2**31 - 1), e=31, d=1, depth=10):
+    ##TODO: self.seed should be replaced with name 'reduction', and appropiate assignments
+    ##      of self.seed to reduction should be made especially for the line
+    ##      instead of self.seed = low + high * d, it should be reduction = low + high * d
+    ##      accordingly appropiate adjustments should be made in the function signature
+    def lehmer(self, a=48271, m=(2**31 - 1), e=31, d=1, depth=10):
         if depth == 0:
-            return x
+            return self.seed
         
         # Calculate the product ax
-        product = a * x
+        product = a * self.seed
         
         # Split the product into high and low parts
         low = product & ((1 << e) - 1)  # equivalent to ax mod 2^e
         high = product >> e  # equivalent to floor(ax / 2^e)
         
         # Apply the reduction step
-        reduced = low + high * d
+        self.seed = low + high * d
         
         # Ensure the result is within the range by subtracting m if necessary
-        if reduced >= m:
-            reduced -= m
+        if self.seed >= m:
+            self.seed -= m
         
         # Recursively generate the next number
-        return self.lehmer_rng(reduced, a, m, e, d, depth - 1)        
+        return self.lehmer(a, m, e, d, depth - 1)        
 
 
     def print_param(self):
