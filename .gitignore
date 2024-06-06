@@ -1,0 +1,5 @@
+## Ignore cache
+__pycache__/
+/primitives/__pycache__/
+/constructions/__pycache__/
+/*/__pycache__/

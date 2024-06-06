@@ -43,7 +43,7 @@ def extract_middle_digits(number, n_digits):
     mid = len(number_str) // 2
     return int(number_str[mid-n_digits//2 : mid+n_digits//2])
 
-## Implement following - https://en.wikipedia.org/wiki/Randomness_test
+## TODO Implement following - https://en.wikipedia.org/wiki/Randomness_test
 def is_random():
     pass
 
@@ -57,6 +57,19 @@ def is_coprime(a, b):
         return True
 
 class BasePseudorandomGenerator():
+    def __init__(self, seed):
+        self.seed = seed
+        self.state = seed
+    
+    def seed(self, seed):
+        self.seed = seed
+        self.state = seed
+    
+    def next(self):
+        raise NotImplementedError("Subclasses must implement this method")
+    
+
+class BasePseudorandomFunction():
     def __init__(self, seed):
         self.seed = seed
         self.state = seed

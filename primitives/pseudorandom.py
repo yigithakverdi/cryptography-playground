@@ -28,7 +28,7 @@ class LinearCongruentialGenerator(BasePseudorandomGenerator):
     def constraints(self):
         return 0 <= self.m and 0 <= self.a < self.m and 0 <= self.c < self.m and 0 <= self.seed < self.m
     
-    ##TODO: self.seed should be replaced with name 'reduction', and appropiate assignments
+    ##TODO self.seed should be replaced with name 'reduction', and appropiate assignments
     ##      of self.seed to reduction should be made especially for the line
     ##      instead of self.seed = low + high * d, it should be reduction = low + high * d
     ##      accordingly appropiate adjustments should be made in the function signature
